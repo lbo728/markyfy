@@ -1,0 +1,50 @@
+{
+  "name": "markyfy",
+  "version": "0.0.1",
+  "description": "A simplify and flexible markdown parser with syntax highlighting support",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "rollup -c rollup.config.mjs",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "markdown",
+    "parser",
+    "syntax-highlighting",
+    "typescript",
+    "html"
+  ],
+  "author": "lbo728",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opengiver/markyfy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/opengiver/markyfy/issues"
+  },
+  "homepage": "https://github.com/opengiver/markyfy#readme",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "rollup": "^4.32.0",
+    "ts-jest": "^29.2.5",
+    "tslib": "^2.8.1",
+    "typedoc": "^0.27.6",
+    "typescript": "^5.7.3"
+  },
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ]
+}
