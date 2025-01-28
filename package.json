@@ -1,6 +1,6 @@
 {
   "name": "markyfy",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simplify and flexible markdown parser with syntax highlighting support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
