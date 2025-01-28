@@ -1,5 +1,6 @@
-import { ParserOptions, Token } from "./types";
+import { ParserOptions } from "./parser";
 import { SyntaxHighlighter } from "./syntaxHighlighter";
+import { Token } from "./token";
 
 export class Markyfy {
   private options: Required<ParserOptions>;

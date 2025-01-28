@@ -3,15 +3,10 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "outDir": "dist",
     "declaration": true,
-    "declarationDir": "./dist/types",
-    "emitDeclarationOnly": true,
-    "outDir": "./dist",
     "strict": true,
-    "baseUrl": "./",
-    "paths": {
-      "@types/*": ["src/types/*"]
-    }
+    "baseUrl": "./"
   },
   "include": ["src"],
   "exclude": ["node_modules"]

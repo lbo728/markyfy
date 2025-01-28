@@ -7,11 +7,13 @@ export default [
     output: {
       dir: "dist",
       format: "esm",
+      preserveModules: true,
+      preserveModulesRoot: "src",
     },
     plugins: [
       tsPlugin({
         declaration: true,
-        declarationDir: "dist/types",
+        declarationDir: "dist",
       }),
       resolve({
         extensions: [".ts", ".js"],
