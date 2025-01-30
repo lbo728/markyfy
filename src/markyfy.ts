@@ -2,10 +2,22 @@ import { ParserOptions } from "./parser";
 import { SyntaxHighlighter } from "./syntaxHighlighter";
 import { Token } from "./token";
 
+/**
+ * Markyfy is a Markdown parser and syntax highlighter that converts Markdown text into HTML.
+ * It supports various Markdown features such as headers, blockquotes, code blocks, lists, and inline elements.
+ *
+ * @class
+ */
 export class Markyfy {
-  private options: Required<ParserOptions>;
-  private syntaxHighlighter: SyntaxHighlighter;
-
+  /**
+   * Creates an instance of Markyfy.
+   *
+   * @param {ParserOptions} [options={}] - Configuration options for the parser.
+   * @param {boolean} [options.gfm=true] - Enables GitHub Flavored Markdown (GFM) features.
+   * @param {boolean} [options.breaks=false] - Enables line breaks as `<br>` tags.
+   * @param {boolean} [options.headerIds=true] - Enables automatic generation of IDs for headers.
+   * @param {boolean} [options.sanitize=true] - Sanitizes URLs to prevent XSS attacks.
+   */
   constructor(options: ParserOptions = {}) {
     this.options = {
       gfm: true,
@@ -17,7 +29,13 @@ export class Markyfy {
     this.syntaxHighlighter = new SyntaxHighlighter();
   }
 
-  parse(markdown: string): string {
+  /**
+   * Parses the given Markdown text and converts it into HTML.
+   *
+   * @param {string} markdown - The Markdown text to parse.
+   * @returns {string} The resulting HTML.
+   */
+  public parse(markdown: string): string {
     try {
       const tokens = this.tokenize(markdown);
       return this.tokensToHtml(tokens);
@@ -26,6 +44,17 @@ export class Markyfy {
       return this.escapeHtml(markdown);
     }
   }
+
+  private options: Required<ParserOptions>;
+  private syntaxHighlighter: SyntaxHighlighter;
+
+  /**
+   * Tokenizes the Markdown text into an array of tokens.
+   *
+   * @private
+   * @param {string} markdown - The Markdown text to tokenize.
+   * @returns {Token[]} An array of tokens representing the Markdown structure.
+   */
 
   private tokenize(markdown: string): Token[] {
     const tokens: Token[] = [];
@@ -84,6 +113,13 @@ export class Markyfy {
     return tokens;
   }
 
+  /**
+   * Parses inline Markdown elements (e.g., bold, italic, code, links) within a line of text.
+   *
+   * @private
+   * @param {string} text - The text containing inline Markdown elements.
+   * @returns {Token[]} An array of tokens representing the inline elements.
+   */
   private parseInline(text: string): Token[] {
     const tokens: Token[] = [];
     let current = "";
@@ -174,6 +210,13 @@ export class Markyfy {
     return tokens;
   }
 
+  /**
+   * Parses a Markdown header line into a token.
+   *
+   * @private
+   * @param {string} line - The header line to parse.
+   * @returns {Token} A token representing the header.
+   */
   private parseHeader(line: string): Token {
     const match = line.match(/^(#{1,6})(\s+(.+))?$/);
     if (!match) {
@@ -201,6 +244,14 @@ export class Markyfy {
     };
   }
 
+  /**
+   * Parses a Markdown blockquote into a token.
+   *
+   * @private
+   * @param {string[]} lines - The array of lines containing the blockquote.
+   * @param {number} startIndex - The starting index of the blockquote in the lines array.
+   * @returns {{ token: Token; newIndex: number }} An object containing the blockquote token and the new index.
+   */
   private parseBlockquote(
     lines: string[],
     startIndex: number
@@ -228,6 +279,14 @@ export class Markyfy {
     };
   }
 
+  /**
+   * Parses a Markdown code block into a token.
+   *
+   * @private
+   * @param {string[]} lines - The array of lines containing the code block.
+   * @param {number} startIndex - The starting index of the code block in the lines array.
+   * @returns {{ token: Token; newIndex: number }} An object containing the code block token and the new index.
+   */
   private parseCodeBlock(
     lines: string[],
     startIndex: number
@@ -255,6 +314,15 @@ export class Markyfy {
       newIndex: i,
     };
   }
+
+  /**
+   * Parses a Markdown list into a token.
+   *
+   * @private
+   * @param {string[]} lines - The array of lines containing the list.
+   * @param {number} startIndex - The starting index of the list in the lines array.
+   * @returns {{ token: Token; newIndex: number }} An object containing the list token and the new index.
+   */
   private parseList(
     lines: string[],
     startIndex: number
@@ -343,6 +411,13 @@ export class Markyfy {
     };
   }
 
+  /**
+   * Converts an array of tokens into an HTML string.
+   *
+   * @private
+   * @param {Token[]} tokens - The array of tokens to convert.
+   * @returns {string} The resulting HTML string.
+   */
   private tokensToHtml(tokens: Token[]): string {
     const html = tokens
       .map((token) => {
@@ -486,11 +561,25 @@ export class Markyfy {
     return html;
   }
 
+  /**
+   * Renders the children tokens of a parent token into an HTML string.
+   *
+   * @private
+   * @param {Token[]} [children] - The array of child tokens to render.
+   * @returns {string} The resulting HTML string.
+   */
   private renderChildren(children?: Token[]): string {
     if (!children) return "";
     return children.map((child) => this.tokensToHtml([child])).join("");
   }
 
+  /**
+   * Sanitizes a URL to prevent XSS attacks.
+   *
+   * @private
+   * @param {string} url - The URL to sanitize.
+   * @returns {string} The sanitized URL.
+   */
   private sanitizeUrl(url: string): string {
     try {
       const parsed = new URL(url);
@@ -500,6 +589,13 @@ export class Markyfy {
     }
   }
 
+  /**
+   * Converts a text string into a URL-friendly slug.
+   *
+   * @private
+   * @param {string} text - The text to slugify.
+   * @returns {string} The slugified text.
+   */
   private slugify(text: string): string {
     return text
       .toLowerCase()
@@ -508,6 +604,13 @@ export class Markyfy {
       .replace(/-+/g, "-");
   }
 
+  /**
+   * Escapes HTML special characters in a text string.
+   *
+   * @private
+   * @param {string} text - The text to escape.
+   * @returns {string} The escaped text.
+   */
   private escapeHtml(text: string): string {
     return text
       .replace(/&/g, "&amp;")
